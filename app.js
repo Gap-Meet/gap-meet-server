@@ -1,67 +1,61 @@
 const express = require('express');
 const app = express();
 
-// 필요한 모듈 불러오기
-const mysql = require('mysql');
+//경로 설정
+const path = require('path');
 
-// MySQL 연결 설정
-const dbConfig = {
-  host: 'awsdbinstance.ctpcezq624ms.ap-northeast-2.rds.amazonaws.com', // MySQL 호스트 주소
-  user: 'gapmeet', // MySQL 사용자 이름
-  password: 'ese2023sw', // MySQL 비밀번호
-  database: 'gapmeetdb' // 사용할 데이터베이스 이름
-};
+// Body Parser 미들웨어 설정 
+app.use(express.urlencoded({ extended: true }));
 
-// MySQL 연결 생성
-const connection = mysql.createConnection(dbConfig);
+// MySQL 연결 모듈 가져오기
+const mysqlConnection = require('./dbconnection');
 
-// 연결 시작
-connection.connect((err) => {
-  if (err) {
-    console.error('MySQL 연결 실패:', err);
-    throw err;
-  }
-  console.log('MySQL 연결 성공');
-
-    
-    // 유저 정보 삽입 SQL 쿼리
-    const insertUserSQL = `
-      INSERT INTO users (user_id, username, email, password)
-      VALUES ('testid', 'testname', 'testemail@goole.com', '0000')
-    `;
-    
-    // 유저 정보 삽입
-    connection.query(insertUserSQL, (err) => {
-      if (err) {
-        console.error('유저 정보 삽입 실패:', err);
-        throw err;
-      }
-      console.log('유저 정보 삽입 성공');
-      
-      // 유저 정보 조회 SQL 쿼리
-      const selectUserSQL = 'SELECT * FROM users';
-      
-      // 유저 정보 조회
-      connection.query(selectUserSQL, (err, results) => {
-        if (err) {
-          console.error('유저 정보 조회 실패:', err);
-          throw err;
-        }
-        console.log('유저 정보 조회 결과:', results);
-        
-        // 연결 종료
-        connection.end((err) => {
-          if (err) {
-            console.error('MySQL 연결 종료 실패:', err);
-            throw err;
-          }
-          console.log('MySQL 연결 종료');
-        });
-      });
-    });
-  });
-
-  app.get('/', function(req, res){
-    res.send('hello NodeJs');
+app.get('/', function(req, res){
+    res.sendFile(path.join(__dirname + '/tempfront', 'login.html'));
 })
+
+
+app.get('/users',(req, res)=>{
+    //mysql 연결 모듈 사용 및 데베쿼리 실행
+    mysqlConnection.query('SELECT * FROM users', (err, results) => {
+        if (err) {
+          console.error('MySQL query error: ', err);
+          res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+          res.json(results);
+          console.log('유저정보 조회 성공')
+          // 쿼리 결과를 변수에 저장 -> 프론트측에서 이 데이터 가지고 감
+          const users = results;
+        }
+      });
+})
+
+// 로그인 요청을 처리하는 라우트
+app.post('/login', (req, res) => {
+    const { userid, password } = req.body;
+    console.log(req.body);
+    
+    // 입력한 아이디와 패스워드를 사용하여 사용자 조회 쿼리
+    const query = 'SELECT * FROM users WHERE user_id = ? AND password = ?';
+    mysqlConnection.query(query,[userid, password], (err, results) => {
+        if (err) {
+            console.log(results);
+            console.error('MySQL query error: ', err);
+            res.status(500).json({ error: 'Internal Server Error' });
+            res.send('로그인 실패. 아이디 또는 비밀번호가 올바르지 않습니다.');
+        } else {
+            const user = results;
+            console.log(user);
+            if(user.length === 0){
+                console.log('로그인 실패 - 해당정보 사용자없음');
+                res.sendFile(path.join(__dirname + '/tempfront', 'login.html'));
+            }
+            console.log('유저정보 조회 성공');
+
+            // 로그인이 성공하면 다음 작업을 수행 (예: 세션 설정, 페이지 이동)
+            res.sendFile(path.join(__dirname + '/tempfront', 'main.html'));
+        }
+    });
+});
+
 app.listen(3000, () => console.log('3000번 포트 대기'));
