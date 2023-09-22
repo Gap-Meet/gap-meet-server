@@ -4,7 +4,7 @@ const app = express();
 //경로 설정
 const path = require('path');
 
-// Body Parser 미들웨어 설정 
+// Body Parser 미들웨어 설정 - 파싱위함
 app.use(express.urlencoded({ extended: true }));
 
 // MySQL 연결 모듈 가져오기
