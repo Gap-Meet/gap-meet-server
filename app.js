@@ -14,6 +14,11 @@ app.get('/', function(req, res){
     res.sendFile(path.join(__dirname + '/tempfront', 'login.html'));
 })
 
+app.get('/signup', function(req, res){
+    res.sendFile(path.join(__dirname + '/tempfront', 'signup.html'));
+})
+
+
 
 app.get('/users',(req, res)=>{
     //mysql 연결 모듈 사용 및 데베쿼리 실행
@@ -57,5 +62,39 @@ app.post('/login', (req, res) => {
         }
     });
 });
+
+
+// 회원가입 요청을 처리하는 라우트
+app.post('/signup', (req, res) => {
+    const { username, email, userid, password } = req.body;
+    console.log(req.body);
+    
+        // 입력한 아이디를 사용하여 사용자 조회 쿼리
+        const checkQuery = 'SELECT * FROM users WHERE user_id = ?';
+        mysqlConnection.query(checkQuery, [userid], (err, results) => {
+            if (err) {
+                console.error('MySQL query error: ', err);
+                res.status(500).json({ error: 'Internal Server Error' });
+            } else {
+                // 중복된 아이디가 이미 존재하는 경우
+                if (results.length > 0) {
+                    console.log('아이디 중복');
+                    res.status(409).send('아이디 중복: 이미 존재하는 아이디입니다.');
+                } else {
+                    // 중복된 아이디가 없는 경우, 회원가입 쿼리 실행
+                    const insertQuery = 'INSERT INTO users (username, email, user_id, password) VALUES (?, ?, ?, ?)';
+                    mysqlConnection.query(insertQuery, [username, email, userid, password], (insertErr, insertResults) => {
+                        if (insertErr) {
+                            console.error('MySQL query error: ', insertErr);
+                            res.status(500).json({ error: 'Internal Server Error' });
+                        } else {
+                            console.log('회원가입 성공');
+                            res.status(201).send('회원가입 성공');
+                        }
+                    });
+                }
+            }
+        });
+    });
 
 app.listen(3000, () => console.log('3000번 포트 대기'));
