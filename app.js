@@ -8,7 +8,7 @@ const path = require('path');
 app.use(express.urlencoded({ extended: true }));
 
 // MySQL 연결 모듈 가져오기
-const mysqlConnection = require('./dbconnection');
+const mysqlConnection = require('./src/db/dbconnection');
 
 app.get('/', function(req, res){
     res.sendFile(path.join(__dirname + '/tempfront', 'login.html'));
