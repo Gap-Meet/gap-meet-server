@@ -48,5 +48,15 @@ export const get = (req, res, next) => {
   });
 };
 
+// 캐시 삭제 함수
+export const remove = (key) => {
+  redisClient.del(key, (error, reply) => {
+    if (error) {
+      console.error('캐시 삭제 실패:', error);
+    } else {
+      console.log('캐시 삭제 성공:', reply); // 삭제된 캐시 키의 수가 반환됩니다.
+    }
+  });
+};
 
 

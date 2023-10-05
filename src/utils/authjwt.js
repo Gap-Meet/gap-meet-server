@@ -8,38 +8,48 @@ const secret = process.env.JWT_SECRET;
 
 //access 토큰 발급
 export const sign = (user) => {
+  
   //payload 발급
   const payload = {
-    user_id: user.user_id,
+    user_id: user.user_id
   };
 
   //access token 발급
   return jwt.sign(payload, secret, {
     algorithm: 'HS256',
-    expiresIn: '10m',
-    issuer: 'pitapet',
+    expiresIn: '30m',
+    issuer: 'gapmeet',
   });
 };
 
-//access 토큰 검증
+
+//access 토큰 검증 부분
 export const verify = (token) => {
   let decoded = null;
 
   try {
     //검증
     decoded = jwt.verify(token, secret);
+    console.log(decoded);  //디버깅
 
-    return {
-      ok: true,
-      user_id: decoded.user_id
-    };
+    const user_id = decoded.user_id;
+    console.log(user_id);  //디버깅
+    console.log("에러는 안남..."); //디버깅
+    return user_id;
+
   } catch (err) {
+    console.error('토큰 해독 오류:', err);
+    
     return {
       ok: false,
       message: err.message,
     };
   }
 };
+
+
+
+
 
 //refresh 토큰 발급
 export const refresh = () => {
