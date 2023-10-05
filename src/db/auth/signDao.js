@@ -27,19 +27,4 @@ export const auth_user = async (conn, email) => {
     return [user];
 };
 
-// //소셜 로그인 유저 생성
-// export const social_insert_user = async (conn, params) => {
-//     const insertUser_query = `INSERT INTO users (email,password) VALUES (?,?);`;
 
-//     await conn.query(insertUser_query, params);
-
-//     return;
-// }
-
-// //소셜 로그인 유저 아이디 가져오기
-// export const social_select_user = async (conn, params) => {
-//     const selectUserID_query = `SELECT user_id FROM User WHERE email = ?`;
-//     const [user] = await conn.query(selectUserID_query, params);
-
-//     return [user];
-// }
