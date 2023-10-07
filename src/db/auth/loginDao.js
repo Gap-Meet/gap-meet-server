@@ -21,6 +21,8 @@ export const deleteUser = async (conn, params) => {
 };
 
 export const updateUser = async (conn, params) => {
+
+  console.log(params)
     
   const userUpdate = `
       UPDATE users

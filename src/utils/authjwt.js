@@ -33,7 +33,7 @@ export const verify = (token) => {
     return user_id; //유효한 경우 해당 토큰에서 추출한 사용자 식별자(user_id)반환
   } catch (err) {
     //토큰이 유효하지 않거나 검증에 실패한 경우
-    console.error("Access toketn 검증 실패:", err);
+    console.error("Access token 검증 실패:", err);
     return {
       ok: false, // 함수의 성공 또는 실패 상태
       message: err.message, // 오류에 대한 설명 또는 메시지

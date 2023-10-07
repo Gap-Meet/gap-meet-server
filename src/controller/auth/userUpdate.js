@@ -5,9 +5,10 @@ export const update = async(req, res) => {
     
     //params
     const user_id = req.id;
+    console.log("user_Id:"+ user_id);
     const {email, password, username, profile_image_path} = req.body;
     const conn = await pool.getConnection();
-    const params = [user_id, email, password, username, profile_image_path];
+    const params = [email, password, username, profile_image_path, user_id];
 
     //DB
     const result = await updateUser(conn, params);

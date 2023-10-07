@@ -8,22 +8,27 @@ export const authJWT = (req, res, next) => {
 
         const token = req.headers.authorization.split('Bearer ')[1];
         console.log(token);
+        console.log(req.body);
 
         //토큰 채굴
         const result = verify(token);
+        req.id = result;
 
         console.log("result", result);
 
-        if (result.ok) {
-            req.id = result.user_id;
-            console.log("req.id", result);
-            next();
-        } else {
-            res.status(401).send({
-                ok: false,
-                message: result.message,
-            });
-        }
+        next();
+
+
+        // if (result.ok) {
+        //     req.id = result.user_id;
+        //     console.log("req.id", result);
+        //     next();
+        // } else {
+        //     res.status(401).send({
+        //         ok: false,
+        //         message: result.message,
+        //     });
+        // }
     } else {
         res.status(401).send({
             ok: false,
