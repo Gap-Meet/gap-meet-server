@@ -4,3 +4,31 @@ export const check_user = async (conn, user_id) => {
   const [user] = await conn.query(finduser, user_id); //쿼리 결과의 첫 번째 행의 데이터만을 추출
   return [user][0][0]; //다차원 배열에서 순수 데이터만 뽑아내기
 };
+
+export const deleteUser = async (conn, params) => {
+    
+  try {
+    const userDelete = `
+        DELETE FROM users WHERE user_id = ?
+    `;
+
+    const result = await conn.query(userDelete, [user_id]);
+
+    return result;
+  } catch (error) {
+      throw new Error("사용자 삭제 중 오류가 발생했습니다: " + error.message);
+  }
+};
+
+export const updateUser = async (conn, params) => {
+    
+  const userUpdate = `
+      UPDATE users
+      SET email = ?, password = ?, username = ?, profile_image_path = ?
+      WHERE user_id = ?;
+  `;
+
+  const [updatedUser] = await conn.query(userUpdate, params);
+
+  return [updatedUser];
+};

@@ -4,6 +4,9 @@ import express from "express";
 import join from "../controller/auth/join.js"
 import resign from "../controller/auth/resign.js"
 import login from "../controller/auth/login.js"
+import deleteData from "../controller/auth/deleteUser.js"
+import update from "../controller/auth/userUpdate.js"
+import { authJWT } from '../middlewares/auth.js';
 
 export const router = express.Router();
 
@@ -21,5 +24,11 @@ router.post('/join', join);
 
 //POST /api/user/resign
 router.post('/resign', resign);
+
+//DELETE: /api/user/delete
+router.delete('/delete/', authJWT, deleteData);
+
+router.put('/update/', authJWT, update);
+
 
 export default router;

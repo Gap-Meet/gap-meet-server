@@ -1,7 +1,7 @@
 import pool from "../../config/database.js"; //데베 연결 가져오기
 import bcrypt from "bcrypt"; //비밀번호 해싱을 위한 bcrypt 모듈 가져오기
 import { sign } from "../../utils/authjwt.js"; //토큰 발급 함수 'sign' 가져오기
-import { check_user } from "../../db/auth/LoginDao.js"; //유저정보 추출하는 함수 'check_user' 가져오기
+import { check_user } from "../../db/auth/loginDao.js"; //유저정보 추출하는 함수 'check_user' 가져오기
 
 export const login = async (req, res) => {
   const { user_id, password } = req.body; //HTTP 요청의 body에서 값을 추출하여 각각 user_id와 password 변수에 저장
