@@ -23,14 +23,15 @@ export const sign = (user) => {
 /*  Access token 유효성 검증   */
 export const verify = (token) => {
   let decoded = null;
+
   try {
     //검증
     decoded = jwt.verify(token, jwtSecret); //토큰을 서명한 비밀 키(jwtSecret)사용하여 검증
-    // console.log(decoded);  //디버깅
 
     const user_id = decoded.user_id;
-    // console.log(user_id);  //디버깅
+
     return user_id; //유효한 경우 해당 토큰에서 추출한 사용자 식별자(user_id)반환
+    
   } catch (err) {
     //토큰이 유효하지 않거나 검증에 실패한 경우
     console.error("Access token 검증 실패:", err);
