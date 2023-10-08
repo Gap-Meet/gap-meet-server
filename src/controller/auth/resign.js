@@ -1,6 +1,6 @@
 import pool from "../../config/database.js";
 import { remove } from "../../utils/cache.js";
-import { verify } from "../../utils/authjwt.js";
+//import { verify } from "../../utils/authjwt.js";
 import { check_user } from "../../db/auth/LoginDao.js";
 import bcrypt from "bcrypt";
 
@@ -8,17 +8,20 @@ export const resign = async (req, res) => {
   const { password } = req.body; // 요청에서 유저가 입력한 password를 password 변수에 저장
   const conn = await pool.getConnection();
 
+  // req 객체에서 사용자 정보를 가져옵니다.
+  const user_id = req.userData.userId;
+
   try {
     // req.headers.authorization로부터 토큰 추출
-    const authorizationHeader = req.headers.authorization;
-    const token = authorizationHeader.split(" ")[1]; // 'Bearer' 토큰을 제외하고 토큰 추출
+    // const authorizationHeader = req.headers.authorization;
+    // const token = authorizationHeader.split(" ")[1]; // 'Bearer' 토큰을 제외하고 토큰 추출
 
-    console.log("토큰 : " + token); //디버깅 1
-    const user_id = verify(token); //토큰 검증
+    // console.log("토큰 : " + token); //디버깅 1
+    // const user_id = verify(token); //토큰 검증
 
-    console.log(user_id + "!!!!!!!!!!!!!!!!!!!!!!!"); // 디버깅 2
+    // console.log(user_id + "!!!!!!!!!!!!!!!!!!!!!!!"); // 디버깅 2
 
-    // user_id로 db에서 해당 유저 정보를 가져와서 user에 저장
+    // // user_id로 db에서 해당 유저 정보를 가져와서 user에 저장
     const user = await check_user(conn, user_id);
     console.log(user.password);
 

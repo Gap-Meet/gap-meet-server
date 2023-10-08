@@ -4,7 +4,8 @@ import express from "express";
 import join from "../controller/auth/join.js";
 import resign from "../controller/auth/resign.js";
 import login from "../controller/auth/login.js";
-
+import update from "../controller/auth/userUpdate.js";
+import { verifyJWT } from "../middlewares/tokenverify.js";
 export const router = express.Router();
 
 /*
@@ -18,7 +19,10 @@ router.post("/login", login);
 //POST /api/user/join
 router.post("/join", join);
 
-//POST /api/user/resign
-router.post("/resign", resign);
+//DELETE /api/user/resign
+router.delete("/resign", verifyJWT, resign);
+
+//PUT /api/user/update
+router.put("/update/", verifyJWT, update);
 
 export default router;
