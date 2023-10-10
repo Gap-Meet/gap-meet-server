@@ -5,7 +5,7 @@ import { check_user } from "../../db/auth/LoginDao.js"; //유저정보 추출하
 
 export const login = async (req, res) => {
   const { user_id, password } = req.body; //HTTP 요청의 body에서 값을 추출하여 각각 user_id와 password 변수에 저장
-
+  console.log("아이디: " + user_id + "\n비밀번호: " + password);
   try {
     const conn = await pool.getConnection(); //데베 연결
 
