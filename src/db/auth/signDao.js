@@ -1,15 +1,24 @@
 //유저 이메일 중복 확인
-export const check_user = async (conn, email) => {
-  const checkUser_query = `SELECT user_id, email,password FROM users WHERE email=?;`;
+export const check_useremail = async (conn, email) => {
+  const checkUser_query = `SELECT email FROM users WHERE email=?;`;
 
-  const [alreadyUser] = await conn.query(checkUser_query, [email]);
+  const [alreadyEmail] = await conn.query(checkUser_query, email);
 
-  return [alreadyUser];
+  return [alreadyEmail][0][0];
+};
+
+//유저 아이디 중복 확인
+export const check_userid = async (conn, user_id) => {
+  const checkUser_query = `SELECT user_id FROM users WHERE user_id=?;`;
+
+  const [alreadyUser_id] = await conn.query(checkUser_query, user_id);
+
+  return [alreadyUser_id][0][0];
 };
 
 //유저 생성
 export const insert_user = async (conn, params) => {
-  const insertUser_query = `INSERT INTO users (user_id, email, password, username, profile_image_path) VALUES (?,?,?,?,?);`;
+  const insertUser_query = `INSERT INTO users (user_id, email, password, username) VALUES (?,?,?,?);`;
   const selectUserID_query = `SELECT user_id FROM users WHERE email = ?`;
 
   await conn.query(insertUser_query, params);

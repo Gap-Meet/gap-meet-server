@@ -4,10 +4,10 @@ import pool from "../../config/database.js";
 export const update = async (req, res) => {
   //params
   const user_id = req.id;
-  const { email, password, username, profile_image_path } = req.body;
+  const { password } = req.body;
 
   const conn = await pool.getConnection();
-  const params = [email, password, username, profile_image_path, user_id];
+  const params = [password, nickname];
 
   //DB
   const result = await updateUser(conn, params);
