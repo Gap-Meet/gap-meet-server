@@ -18,7 +18,9 @@ export const login = async (req, res) => {
       // user_id에 해당하는 유저가 존재하지 않는 경우
       return res
         .status(401)
-        .json({ message: "해당 아이디와 일치하는 유저 정보 없음" });
+        .json({ 
+          success: true,
+          message: "해당 아이디와 일치하는 유저 정보 없음" });
     }
     console.log(user.password); //디버깅2
 
@@ -28,7 +30,9 @@ export const login = async (req, res) => {
 
     if (!match) {
       // 비밀번호가 일치하지 않는 경우
-      return res.status(401).json({ message: "비밀번호 일치하지 않음" });
+      return res.status(401).json({ 
+        success: false,
+        message: "비밀번호 일치하지 않음" });
     }
 
     // 로그인 성공 시 해당 유저에 대한 access token생성

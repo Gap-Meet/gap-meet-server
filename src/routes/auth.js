@@ -6,6 +6,9 @@ import resign from "../controller/auth/resign.js";
 import login from "../controller/auth/login.js";
 import update from "../controller/auth/userUpdate.js";
 import { verifyJWT } from "../middlewares/tokenverify.js";
+import storage from "../utils/storage.js";
+import multer from "multer";
+
 export const router = express.Router();
 
 /*
@@ -23,6 +26,7 @@ router.post("/join", join);
 router.delete("/resign", verifyJWT, resign);
 
 //PUT /api/user/update
-router.put("/update/", verifyJWT, update);
+const upload = multer({storage: storage}); //multer 객체 생성
+router.put("/update/", verifyJWT, upload.single('profile'), update);
 
 export default router;
