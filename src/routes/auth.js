@@ -5,6 +5,8 @@ import join from "../controller/auth/join.js";
 import resign from "../controller/auth/resign.js";
 import login from "../controller/auth/login.js";
 import update from "../controller/auth/userUpdate.js";
+import join_idcheck from "../controller/auth/join_idcheck.js";
+import join_emailcheck from "../controller/auth/join_emailcheck.js";
 import { verifyJWT } from "../middlewares/tokenverify.js";
 import storage from "../utils/storage.js";
 import multer from "multer";
@@ -17,16 +19,22 @@ export const router = express.Router();
 */
 
 //POST /api/user/login
-router.post("/login", login);
+authRouter.post("/login", login);
 
 //POST /api/user/join
-router.post("/join", join);
+authRouter.post("/join", join);
 
 //DELETE /api/user/resign
-router.delete("/resign", verifyJWT, resign);
+authRouter.delete("/resign", verifyJWT, resign);
 
 //PUT /api/user/update
 const upload = multer({storage: storage}); //multer 객체 생성
 router.put("/update/", verifyJWT, upload.single('profile'), update);
 
-export default router;
+//POST /api/user/join_idcheck
+authRouter.post("/join_idcheck/", join_idcheck);
+
+//POST /api/user/join_emailcheck
+authRouter.post("/join_emailcheck/", join_emailcheck);
+
+export default authRouter;
