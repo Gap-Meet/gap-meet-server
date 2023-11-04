@@ -8,7 +8,10 @@ import update from "../controller/auth/userUpdate.js";
 import join_idcheck from "../controller/auth/join_idcheck.js";
 import join_emailcheck from "../controller/auth/join_emailcheck.js";
 import { verifyJWT } from "../middlewares/tokenverify.js";
-const authRouter = express.Router();
+import storage from "../utils/storage.js";
+import multer from "multer";
+
+export const router = express.Router();
 
 /*
     /api/user 경로의 요청을 처리하는 라우터를 정의
@@ -25,7 +28,8 @@ authRouter.post("/join", join);
 authRouter.delete("/resign", verifyJWT, resign);
 
 //PUT /api/user/update
-authRouter.put("/update/", verifyJWT, update);
+const upload = multer({storage: storage}); //multer 객체 생성
+router.put("/update/", verifyJWT, upload.single('profile'), update);
 
 //POST /api/user/join_idcheck
 authRouter.post("/join_idcheck/", join_idcheck);

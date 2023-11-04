@@ -5,7 +5,9 @@ dotenv.config();
 export const verifyJWT = (req, res, next) => {
   //헤더 처리
   if (req.headers.authorization) {
+
     const token = req.headers.authorization.split("Bearer ")[1];
+    
     console.log(token);
     console.log(req.body);
 

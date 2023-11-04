@@ -24,7 +24,7 @@ export const updateUser = async (conn, params) => {
 
   const userUpdate = `
       UPDATE users
-      SET email = ?, password = ?, username = ?, profile_image_path = ?
+      SET email = ?, password = ?, username = ?, nickname = ?, profile_image_path = ?,
       WHERE user_id = ?;
   `;
 
