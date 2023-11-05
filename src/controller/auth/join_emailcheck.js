@@ -1,7 +1,7 @@
 import pool from "../../config/database.js"; //데베 연결 가져오기
 import { check_useremail } from "../../db/auth/signDao.js";
 
-export const join_emaillcheck = async (req, res) => {
+export const join_emailcheck = async (req, res) => {
   const { email } = req.body; //HTTP 요청의 body에서 값을 추출하여 user_id 변수에 저장
   console.log("입력 이메일: " + email);
   try {
@@ -31,4 +31,4 @@ export const join_emaillcheck = async (req, res) => {
   }
 };
 
-export default join_idcheck;
+export default join_emailcheck;
