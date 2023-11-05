@@ -5,9 +5,8 @@ dotenv.config();
 export const verifyJWT = (req, res, next) => {
   //헤더 처리
   if (req.headers.authorization) {
+    const token = req.headers.authorization.split("Bearer ")[1]; //이 형식으로 순수 토큰만 추출
 
-    const token = req.headers.authorization.split("Bearer ")[1];
-    
     console.log(token);
     console.log(req.body);
 
