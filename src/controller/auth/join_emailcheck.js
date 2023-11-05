@@ -31,4 +31,4 @@ export const join_emaillcheck = async (req, res) => {
   }
 };
 
-export default join_idcheck;
+export default join_emailcheck;
