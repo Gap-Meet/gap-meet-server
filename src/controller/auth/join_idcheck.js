@@ -8,11 +8,11 @@ export const join_idcheck = async (req, res) => {
     const conn = await pool.getConnection(); //데베 연결
 
     // user_id로 db에서 해당 유저 정보를 가져와서 user에 저장
-    const user = await check_userid(conn, user_id);
+    const isuser = await check_userid(conn, user_id);
 
-    console.log(user); //디버깅1
+    console.log("유저 존재성: " + isuser); //디버깅1
 
-    if (!user) {
+    if (!isuser) {
       // user_id에 해당하는 유저가 존재하지 않는 경우
       return res.status(200).json({
         ok: true,
