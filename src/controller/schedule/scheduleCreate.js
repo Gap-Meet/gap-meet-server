@@ -10,7 +10,7 @@ export const create = async (req, res) => {
   const conn = await pool.getConnection();
 
   //DB에 스케줄 삽입
-  const [mySchedule] = await insert_schedule(conn, params);
+  const [newSchedule] = await insert_schedule(conn, params);
 
   conn.release();
 
