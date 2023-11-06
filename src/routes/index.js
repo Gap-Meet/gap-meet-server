@@ -1,6 +1,7 @@
 import express from "express";
 import authRouter from "../routes/auth.js";
 import scheduleRouter from "../routes/schedule.js";
+import groupRouter from "../routes/group.js";
 
 //라우터 객체 생성
 const router = express.Router();
@@ -9,6 +10,8 @@ const router = express.Router();
 //router.use("/api/user", authRouter);
 router.use("/api/user", authRouter);
 
-router.use('/api/schedule', scheduleRouter);
+router.use("/api/schedule", scheduleRouter);
+
+router.use("/api/group", groupRouter);
 
 export default router;

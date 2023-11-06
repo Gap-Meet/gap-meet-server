@@ -4,7 +4,7 @@ import express from "express";
 import create from "../controller/schedule/scheduleCreate.js";
 import { verifyJWT } from "../middlewares/tokenverify.js";
 
-export const router = express.Router();
+export const scheduleRouter = express.Router();
 
 /*
     /api/user 경로의 요청을 처리하는 라우터를 정의
@@ -12,6 +12,6 @@ export const router = express.Router();
 */
 
 //POST /api/schedule/create
-router.post("/create", verifyJWT, create);
+scheduleRouter.post("/create", verifyJWT, create);
 
-export default router;
+export default scheduleRouter;
