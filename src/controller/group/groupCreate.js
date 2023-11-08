@@ -13,8 +13,11 @@ export const groupcreate = async (req, res) => {
   //params
   const conn = await pool.getConnection();
 
-  //DB에 그룹 추가
+  //DB _ meetgroup 에 그룹 추가
   const [newgroup] = await create_group(conn, params);
+
+  //DB _ group_users 에 사용자의 그룹 추가
+  //나중에 그룹 목록 리스트 정보 전달할떄 사용해야 하기 때문
 
   conn.release();
 
