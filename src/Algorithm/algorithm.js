@@ -90,4 +90,5 @@ while (np !== npm + 2 && n <= 2) {
   npm++;
 }
 
-console.log(possible);
+//console.log(possible);
+console.log("possible");

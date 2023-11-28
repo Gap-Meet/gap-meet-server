@@ -20,43 +20,46 @@ export const check_groupname = async (conn, group_name) => {
   else return -1;
 };
 
-//그룹 이름 추출해서 전달
-export const extract_groupname = async (
-  conn,
-  manager_user_id,
-  participant_user_id
-) => {
-  const extractGroupname_query = `SELECT group_name FROM meetgroups WHERE manager_user_id=? OR participant_user_id=?;`;
+//get_group_list
+export const get_group_list = async (conn, params) => {
+  const groupListQuery = `
+      SELECT group_name
+      FROM meetgroups
+      INNER JOIN group_user ON meetgroups.group_id = group_user.group_id
+      WHERE group_user.user_id = ?;
+    `;
 
-  const [groupList] = await conn.query(
-    extractGroupname_query,
-    manager_user_id,
-    participant_user_id
-  );
-  if (groupList.length > 0) {
-    //유저가 참여하고 있는 group이 있는경우
-    return groupList[0].group_name;
-  } else {
-    //유저가 참여하고 있는 group이 없는 경우
-    return -1;
-  }
+  const [group] = await conn.query(groupListQuery, params);
+
+  return [group];
 };
 
-//사용자와 그룹을 매칭해서 저장 (INSERT)
-//group_users
-export const add_group_users = async (conn, group_name, user_id, ismanager) => {
-  const addusergroup = `
-          INSERT INTO group_users (group_name, user_id, ismanager) 
-          VALUES (?,?,?)
-      `;
+//get_group_role
+export const get_group_role = async (conn, params) => {
+  const checkRoleQuery = `
+    SELECT group_name
+    FROM meetgroups
+    INNER JOIN group_user ON meetgroups.group_id = group_user.group_id
+    WHERE group_user.user_id = ?;
+  `;
 
-  //업데이트된 시간표 전달
-  const [newgroup] = await conn.query(
-    addusergroup,
-    group_name,
-    user_id,
-    ismanager
-  );
+  const [manager_id] = await conn.query(checkRoleQuery, params);
 
-  return [newgroup];
+  return [manager_id];
+};
+
+//group_id 추출
+export const find_groupid = async (conn, group_name) => {
+  const findGroupID_query = `SELECT group_id FROM meetgroups WHERE group_name=?;`;
+
+  const [groupID] = await conn.query(findGroupID_query, group_name);
+  return [groupID];
+};
+
+//groupuser 추출
+export const find_groupuser = async (conn, groupID) => {
+  const findGroupuser_query = `SELECT user_id FROM group_user WHERE group_id=?;`;
+
+  const [userID] = await conn.query(findGroupuser_query, groupID);
+  return [userID];
 };
