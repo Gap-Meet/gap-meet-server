@@ -15,7 +15,7 @@ export const sign = (user) => {
   };
   return jwt.sign(payload, jwtSecret, {
     algorithm: "HS256", //JWT의 서명 알고리즘
-    expiresIn: "10m", //토큰 만료 시간
+    expiresIn: "1000m", //토큰 만료 시간
     issuer: "gapmeet", //토큰 발급자
   });
 };
