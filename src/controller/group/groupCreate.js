@@ -2,11 +2,12 @@ import { create_group } from "../../db/group/groupDao.js"; //그룹 생성 함�
 import pool from "../../config/database.js";
 
 export const groupcreate = async (req, res) => {
-  console.log(req.body.user_id);
-
   const { group_name, groupcode } = req.body; //req 데이터 가져오기
   //const manager_user_id = req.user_id;
-  const manager_user_id = req.body.user_id;
+  const manager_user_id = req.user_id;
+  console.log("모임이름 : " + group_name);
+  console.log("비밀코드 : " + groupcode);
+  console.log("매니저아이디 : " + manager_user_id);
 
   const params = [group_name, groupcode, manager_user_id];
 

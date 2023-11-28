@@ -7,6 +7,7 @@ import group_namecheck from "../controller/group/group_namecheck.js";
 //import enter from "../controller/group/group_enter.js";
 import extract_groupname from "../controller/group/grouplist.js";
 import setschedule from "../controller/group/group_schedule.js";
+import { verifyJWT } from "../middlewares/tokenverify.js";
 
 //import { verifyJWT } from "../middlewares/tokenverify.js";
 
@@ -18,7 +19,7 @@ export const groupRouter = express.Router();
 */
 
 //POST /api/group/groupcreate
-groupRouter.post("/groupcreate", groupcreate);
+groupRouter.post("/groupcreate", verifyJWT, groupcreate);
 
 //POST /api/group/group_namecheck
 groupRouter.post("/group_namecheck", group_namecheck);
@@ -30,7 +31,7 @@ groupRouter.post("/group_namecheck", group_namecheck);
 //groupRouter.get("/enter", enter);
 
 //GET /api/group/grouplist
-groupRouter.get("/grouplist", extract_groupname);
+groupRouter.get("/grouplist", verifyJWT, extract_groupname);
 
 //GET /api/group/group_schedule
 groupRouter.get("/group_schedule", setschedule);

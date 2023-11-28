@@ -12,8 +12,8 @@ import pool from "../../config/database.js";
 export const setschedule = async (req, res) => {
   //프론트 요청에서 데이터 가져오기
 
-  // const { group_name, option } = req.body; //group_name 이랑 옵션 가져오기
-  const { group_name } = req.query; //group_name 이랑 옵션 가져오기
+  const { group_name, selectedOptions } = req.query; //group_name 이랑 옵션 가져오기
+  //const { group_name } = req.query; //group_name 이랑 옵션 가져오기
   console.log(group_name);
 
   const conn = await pool.getConnection(); //데베 연결
