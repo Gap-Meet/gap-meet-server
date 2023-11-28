@@ -6,8 +6,7 @@ export const group_list = async (req, res) => {
   //params
   const conn = await pool.getConnection();
   const user_id = req.user_id;
-
-  console.log(user_id);
+  console.log("유저아이디:" + user_id);
 
   //DB
   const [myGroup] = await get_group_list(conn, user_id);

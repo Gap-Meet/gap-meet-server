@@ -42,6 +42,4 @@ export const getUser = async (conn, params) => {
 
   if (userInfo.length > 0) return userInfo;
   else return -1;
-
-  return result;
 };
