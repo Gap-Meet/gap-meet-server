@@ -31,10 +31,10 @@ export const scheduleAlgorithm = (schedules, condition) => {
     }
   }
 
-  //컨디션 고려해서 시간 정해주기
+  //컨디션(옵션) 고려해서 시간 정해주기
   const dayOfWeek = condition.day; //[0,1,2] - 월화수 가능함
   const limit = condition.limit; //[9,15] - 9시부터 3시 사이에
-  const time = condition.time; //2 - 2시간
+  const time = condition.time; //2 - 2시간 (최소시간 옵션)
 
   const result = [];
 
@@ -51,7 +51,7 @@ export const scheduleAlgorithm = (schedules, condition) => {
         end = i; //종료 시간 업데이트
         cnt++;
 
-        //시간이 일치하는 걸 찾은 경우 for문 탈출
+        //시간이 일치하는 걸 찾은 경우(연속되는 빈공간의 개수가 최소시간 옵션과 일치할때) for문 탈출
         if (cnt == time) {
           newDate = { day_of_week: dayOfWeek[j], start: end - cnt, end: end };
           result.push(newDate);
