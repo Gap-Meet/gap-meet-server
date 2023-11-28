@@ -69,25 +69,28 @@ export const find_groupuser = async (conn, groupID) => {
   return userIDs;
 };
 
-//그룹 이름 추출해서 전달
-export const extract_groupname = async (
-  conn,
-  manager_user_id,
-  participant_user_id
-) => {
-  const extractGroupname_query = `SELECT group_name FROM meetgroups WHERE manager_user_id=? OR participant_user_id=?;`;
+// 그룹 이름 추출해서 전달
+export const extract_groupname = async (conn, user_id) => {
+  try {
+    // 1. 유저가 참여하고 있는 모든 그룹의 group_id를 가져옴
+    const extractGroupId_query = `SELECT group_id FROM group_user WHERE user_id=?;`;
+    const [groupIDs] = await conn.query(extractGroupId_query, user_id);
 
-  const [groupList] = await conn.query(
-    extractGroupname_query,
-    manager_user_id,
-    participant_user_id
-  );
-  if (groupList.length > 0) {
-    //유저가 참여하고 있는 group이 있는경우
-    return groupList[0].group_name;
-  } else {
-    //유저가 참여하고 있는 group이 없는 경우
-    return -1;
+    if (groupIDs.length > 0) {
+      // 2. 각 group_id에 대응하는 group_name을 가져옴
+      const extractGroupname_query = `SELECT group_name FROM meetgroups WHERE group_id IN (?);`;
+      const [groupNames] = await conn.query(extractGroupname_query, [
+        groupIDs.map((group) => group.group_id),
+      ]);
+
+      return groupNames;
+    } else {
+      // 유저가 참여하고 있는 group이 없는 경우
+      return []; // 빈 배열을 반환
+    }
+  } catch (error) {
+    console.error("에러 발생:", error);
+    throw error;
   }
 };
 
