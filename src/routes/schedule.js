@@ -6,7 +6,7 @@ import extract from "../controller/schedule/myschedule.js";
 
 import { verifyJWT } from "../middlewares/tokenverify.js";
 
-export const scheduleRouter = express.Router();
+export const router = express.Router();
 
 /*
     /api/user 경로의 요청을 처리하는 라우터를 정의
@@ -14,8 +14,9 @@ export const scheduleRouter = express.Router();
 */
 
 //POST /api/schedule/create
-scheduleRouter.post("/create", verifyJWT, create);
+router.post("/create", verifyJWT, create);
 
 //GET /api/schedule/myschedule
-scheduleRouter.get("/myschedule", extract);
-export default scheduleRouter;
+router.get("/myschedule", extract);
+
+export default router;

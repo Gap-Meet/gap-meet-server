@@ -32,3 +32,16 @@ export const updateUser = async (conn, params) => {
 
   return [updatedUser];
 };
+
+export const getUser = async (conn, params) => {
+  const getUser = `
+      select * FROM users WHERE user_id = ?
+  `;
+
+  const userInfo = await conn.query(getUser, [user_id]);
+
+  if (userInfo.length > 0) return userInfo;
+  else return -1;
+
+  return result;
+};

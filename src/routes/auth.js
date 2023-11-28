@@ -4,6 +4,8 @@ import express from "express";
 import join from "../controller/auth/join.js";
 import resign from "../controller/auth/resign.js";
 import login from "../controller/auth/login.js";
+import getInfo from "../controller/auth/myInfo.js";
+
 import update from "../controller/auth/userUpdate.js";
 import join_idcheck from "../controller/auth/join_idcheck.js";
 import join_emailcheck from "../controller/auth/join_emailcheck.js";
@@ -36,5 +38,8 @@ authRouter.post("/join_idcheck/", join_idcheck);
 
 //POST /api/user/join_emailcheck
 authRouter.post("/join_emailcheck/", join_emailcheck);
+
+//GET /api/user/getInfo
+authRouter.get("/getInfo/", getInfo);
 
 export default authRouter;
